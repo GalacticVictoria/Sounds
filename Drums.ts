@@ -34,7 +34,7 @@ function createDrumSet() {
   pads.forEach((pad) => {
     const cube = spawnPrimitive.cube(
       pad.pos,
-      new Vector3(0.6, 0.45, 0.45),
+      new Vector3(0.2, 0.2, 0.2),
       Quaternion.one,
       pad.color,
       1,
