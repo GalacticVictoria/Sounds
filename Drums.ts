@@ -31,6 +31,7 @@ function createDrumSet() {
     { name: "Hi-Hat", color: Color.green, pos: new Vector3(-0.25, 1.7, -2.2), rot: new Quaternion(0, 0.2, 0, 1), scale: new Vector3(0.2, 0.05, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.highHat, volume: 1.0, pitch: 1.2 },
     { name: "Tom", color: Color.red, pos: new Vector3(0.3, 1.4, -1.9), rot: new Quaternion(0.2, -0.35, 0, 1), scale: new Vector3(0.2, 0.2, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.hit, volume: 0.8, pitch: 1.0 },
     { name: "Crash", color: Color.blue, pos: new Vector3(0.25, 1.7, -2.2), rot: new Quaternion(0, -0.2, 0, 1), scale: new Vector3(0.2, 0.05, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.cymbal, volume: 0.8, pitch: 0.92 },
+    { name: "Cowbell", color: Color.lavender, pos: new Vector3(0, 1.8, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.05, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.cowBell, volume: 0.8, pitch: 1.0 }
   ];
 
   pads.forEach((pad) => {
