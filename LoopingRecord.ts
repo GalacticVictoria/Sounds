@@ -43,18 +43,28 @@ function start() {
 }
 
 function createLoopingControls() {
-  const recordButton = createUIElement.button(new Vector3(-0.24, 2.1, -2.4), new Vector3(0.28, 0.12, 0.12), Quaternion.one, "Rec", Color.white, 8, Color.red, undefined);
+  const recordButton = createUIElement.button(new Vector3(-0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Rec", Color.white, 14, Color.red, undefined);
   recordButton.rayClick.setClickFunction(() => {
     toggleRecording();
   });
 
-  const playButton = createUIElement.button(new Vector3(0.24, 2.1, -2.4), new Vector3(0.28, 0.12, 0.12), Quaternion.one, "Play", Color.white, 8, Color.green, undefined);
+  const playButton = createUIElement.button(new Vector3(-0.14, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Play", Color.white, 14, Color.green, undefined);
   playButton.rayClick.setClickFunction(() => {
     togglePlayback();
   });
 
-  statusText = createTextLabel(new Vector3(0, 2.24, -2.4), "Ready", 8, Color.white);
-  trackCountText = createTextLabel(new Vector3(0, 2.38, -2.4), "Tracks: 0", 18, Color.white);
+  const stopButton = createUIElement.button(new Vector3(0.14, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Stop", Color.white, 14, Color.orange, undefined);
+  stopButton.rayClick.setClickFunction(() => {
+    stopPlayback();
+  });
+
+  const resetButton = createUIElement.button(new Vector3(0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Reset", Color.white, 14, Color.blue, undefined);
+  resetButton.rayClick.setClickFunction(() => {
+    resetTracks();
+  });
+
+  statusText = createTextLabel(new Vector3(0, 2.25, -2.4), "Ready", 18, Color.white);
+  trackCountText = createTextLabel(new Vector3(0, 2.38, -2.4), "Tracks: 0", 14, Color.white);
 }
 
 function createTextLabel(pos: Vector3, text: string, fontSize: number, color: Color): Entity {
@@ -122,6 +132,14 @@ function stopPlayback() {
     Async.clearTimer(playbackLoopTimerId);
     playbackLoopTimerId = undefined;
   }
+  updateStatusText();
+}
+
+function resetTracks() {
+  stopPlayback();
+  recordedTracks = [];
+  currentTrack = null;
+  isRecording = false;
   updateStatusText();
 }
 
