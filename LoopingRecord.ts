@@ -43,12 +43,12 @@ function start() {
 }
 
 function createLoopingControls() {
-  const recordButton = createUIElement.button(new Vector3(-0.24, 1.5, -2.4), new Vector3(0.28, 0.12, 0.12), Quaternion.one, "Rec", Color.white, 8, Color.red, undefined);
+  const recordButton = createUIElement.button(new Vector3(-0.24, 2.1, -2.4), new Vector3(0.28, 0.12, 0.12), Quaternion.one, "Rec", Color.white, 8, Color.red, undefined);
   recordButton.rayClick.setClickFunction(() => {
     toggleRecording();
   });
 
-  const playButton = createUIElement.button(new Vector3(0.24, 1.5, -2.4), new Vector3(0.28, 0.12, 0.12), Quaternion.one, "Play", Color.white, 8, Color.green, undefined);
+  const playButton = createUIElement.button(new Vector3(0.24, 2.1, -2.4), new Vector3(0.28, 0.12, 0.12), Quaternion.one, "Play", Color.white, 8, Color.green, undefined);
   playButton.rayClick.setClickFunction(() => {
     togglePlayback();
   });
