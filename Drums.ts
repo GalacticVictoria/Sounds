@@ -1,4 +1,4 @@
-import { WaveAudioGenerator } from "./Yuu API/Audio/WaveAudioGenerator";
+import { DefaultAudio } from "./Yuu API/Audio/DefaultAudio";
 import { Color } from "./Yuu API/Basic Types/Color";
 import { Quaternion } from "./Yuu API/Basic Types/Quaternion";
 import { Vector3 } from "./Yuu API/Basic Types/Vector3";
@@ -15,8 +15,7 @@ type DrumPadDefinition = {
   name: string;
   color: Color;
   pos: Vector3;
-  wave: "Sine" | "Square" | "Triangle" | "Sawtooth" | "Noise";
-  frequency: number;
+  audioFilePath: string;
   volume: number;
   pitch: number;
 };
@@ -25,11 +24,11 @@ type DrumPadDefinition = {
 
 function createDrumSet() {
   const pads: DrumPadDefinition[] = [
-    { name: "Kick", color: Color.red, pos: new Vector3(-1.2, 1.0, -2), wave: "Sine", frequency: 80, volume: 0.8, pitch: 0.95 },
-    { name: "Snare", color: Color.blue, pos: new Vector3(0, 1.0, -2), wave: "Noise", frequency: 2400, volume: 0.55, pitch: 1.05 },
-    { name: "Hi-Hat", color: Color.yellow, pos: new Vector3(1.2, 1.0, -2), wave: "Square", frequency: 1800, volume: 0.45, pitch: 1.2 },
-    { name: "Tom", color: Color.green, pos: new Vector3(-0.6, 1.0, -1), wave: "Triangle", frequency: 420, volume: 0.65, pitch: 1.0 },
-    { name: "Crash", color: Color.purple, pos: new Vector3(0.6, 1.0, -1), wave: "Sawtooth", frequency: 650, volume: 0.5, pitch: 0.92 },
+    { name: "Kick", color: Color.red, pos: new Vector3(-1.2, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.drum, volume: 0.8, pitch: 0.95 },
+    { name: "Snare", color: Color.blue, pos: new Vector3(0, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.snareDrum, volume: 0.6, pitch: 1.05 },
+    { name: "Hi-Hat", color: Color.yellow, pos: new Vector3(1.2, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.highHat, volume: 0.45, pitch: 1.2 },
+    { name: "Tom", color: Color.green, pos: new Vector3(-0.6, 1.5, -1), audioFilePath: DefaultAudio.filePaths.instruments.drums.hit, volume: 0.65, pitch: 1.0 },
+    { name: "Crash", color: Color.purple, pos: new Vector3(0.6, 1.5, -1), audioFilePath: DefaultAudio.filePaths.instruments.drums.cymbal, volume: 0.5, pitch: 0.92 },
   ];
 
   pads.forEach((pad) => {
@@ -45,20 +44,13 @@ function createDrumSet() {
     );
 
     cube.mesh.color.set(pad.color, 1);
-    cube.rayClick.initialize(false);
-    cube.rayClick.setClickFunction(() => {
+
+    cube.trigger.initialize(0.45, undefined, ["Left Hand", "Right Hand"], undefined);
+    cube.trigger.setOccupiedFunction(() => {
       playPadSound(cube, pad);
     });
 
-    cube.audio.createFromByteArray(
-      WaveAudioGenerator.generate16Bit(pad.wave, {
-        frequency: pad.frequency,
-        duration: 0.22,
-        amplitude: 0.35,
-        sampleRate: 44_100,
-      }),
-      true
-    );
+    cube.audio.createFromFilePath(pad.audioFilePath, true);
 
     cube.audio.volume.set(pad.volume);
     cube.audio.pitch.set(pad.pitch);
