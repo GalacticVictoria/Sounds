@@ -43,22 +43,22 @@ function start() {
 }
 
 function createLoopingControls() {
-  const recordButton = createUIElement.button(new Vector3(-0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Rec", Color.white, 8, Color.red, undefined);
+  const recordButton = createUIElement.button(new Vector3(-0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Rec", Color.white, 6, Color.red, undefined);
   recordButton.rayClick.setClickFunction(() => {
     toggleRecording();
   });
 
-  const playButton = createUIElement.button(new Vector3(-0.14, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Play", Color.white, 8, Color.green, undefined);
+  const playButton = createUIElement.button(new Vector3(-0.14, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Play", Color.white, 6, Color.green, undefined);
   playButton.rayClick.setClickFunction(() => {
     togglePlayback();
   });
 
-  const stopButton = createUIElement.button(new Vector3(0.14, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Stop", Color.white, 8, Color.orange, undefined);
-  stopButton.rayClick.setClickFunction(() => {
+  const pauseButton = createUIElement.button(new Vector3(0.14, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Pause", Color.white, 6, Color.orange, undefined);
+  pauseButton.rayClick.setClickFunction(() => {
     stopPlayback();
   });
 
-  const resetButton = createUIElement.button(new Vector3(0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Reset", Color.white, 8, Color.blue, undefined);
+  const resetButton = createUIElement.button(new Vector3(0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Reset", Color.white, 6, Color.blue, undefined);
   resetButton.rayClick.setClickFunction(() => {
     resetTracks();
   });
