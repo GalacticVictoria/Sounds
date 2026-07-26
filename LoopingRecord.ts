@@ -53,7 +53,7 @@ function createLoopingControls() {
     togglePlayback();
   });
 
-  statusText = createTextLabel(new Vector3(0, 1, -2.4), "Ready", 20, Color.white);
+  statusText = createTextLabel(new Vector3(0, 2.24, -2.4), "Ready", 15, Color.white);
   trackCountText = createTextLabel(new Vector3(0, 2.38, -2.4), "Tracks: 0", 18, Color.lightGray);
 }
 
