@@ -25,10 +25,10 @@ type DrumPadDefinition = {
 function createDrumSet() {
   const pads: DrumPadDefinition[] = [
     { name: "Kick", color: Color.red, pos: new Vector3(-1.2, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.drum, volume: 0.8, pitch: 0.95 },
-    { name: "Snare", color: Color.blue, pos: new Vector3(0, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.snareDrum, volume: 0.6, pitch: 1.05 },
+    { name: "Snare", color: Color.blue, pos: new Vector3(0, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.snareDrum, volume: 0.8, pitch: 1.05 },
     { name: "Hi-Hat", color: Color.yellow, pos: new Vector3(1.2, 1.5, -2), audioFilePath: DefaultAudio.filePaths.instruments.drums.highHat, volume: 1.0, pitch: 1.2 },
     { name: "Tom", color: Color.green, pos: new Vector3(-0.6, 1.5, -1), audioFilePath: DefaultAudio.filePaths.instruments.drums.hit, volume: 0.65, pitch: 1.0 },
-    { name: "Crash", color: Color.purple, pos: new Vector3(0.6, 1.5, -1), audioFilePath: DefaultAudio.filePaths.instruments.drums.cymbal, volume: 1.0, pitch: 0.92 },
+    { name: "Crash", color: Color.purple, pos: new Vector3(0.6, 1.5, -1), audioFilePath: DefaultAudio.filePaths.instruments.drums.cymbal, volume: 0.8, pitch: 0.92 },
   ];
 
   pads.forEach((pad) => {
