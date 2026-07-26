@@ -16,6 +16,7 @@ type DrumPadDefinition = {
   color: Color;
   pos: Vector3;
   rot: Quaternion;
+  scale: Vector3;
   audioFilePath: string;
   volume: number;
   pitch: number;
@@ -25,17 +26,17 @@ type DrumPadDefinition = {
 
 function createDrumSet() {
   const pads: DrumPadDefinition[] = [
-    { name: "Kick", color: Color.orange, pos: new Vector3(-0.3, 1.3, -1.9), rot: new Quaternion(0, 0.35, 0, 1), audioFilePath: DefaultAudio.filePaths.instruments.drums.drum, volume: 0.8, pitch: 0.95 },
-    { name: "Snare", color: Color.yellow, pos: new Vector3(0, 1.3, -2), rot: new Quaternion(0, 0, 0, 1), audioFilePath: DefaultAudio.filePaths.instruments.drums.snareDrum, volume: 0.8, pitch: 1.05 },
-    { name: "Hi-Hat", color: Color.green, pos: new Vector3(-0.45, 1.3, -1.6), rot: new Quaternion(0, 0.9, 0, 1), audioFilePath: DefaultAudio.filePaths.instruments.drums.highHat, volume: 1.0, pitch: 1.2 },
-    { name: "Tom", color: Color.red, pos: new Vector3(0.3, 1.3, -1.9), rot: new Quaternion(0, -0.35, 0, 1), audioFilePath: DefaultAudio.filePaths.instruments.drums.hit, volume: 0.8, pitch: 1.0 },
-    { name: "Crash", color: Color.blue, pos: new Vector3(0.45, 1.3, -1.6), rot: new Quaternion(0, -0.9, 0, 1), audioFilePath: DefaultAudio.filePaths.instruments.drums.cymbal, volume: 0.8, pitch: 0.92 },
+    { name: "Kick", color: Color.orange, pos: new Vector3(-0.3, 1.3, -1.9), rot: new Quaternion(0, 0.35, 0, 1), scale: new Vector3(0.2, 0.2, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.drum, volume: 0.8, pitch: 0.95 },
+    { name: "Snare", color: Color.yellow, pos: new Vector3(0, 1.3, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.snareDrum, volume: 0.8, pitch: 1.05 },
+    { name: "Hi-Hat", color: Color.green, pos: new Vector3(-0.45, 1.3, -1.6), rot: new Quaternion(0, 0.9, 0, 1), scale: new Vector3(0.2, 0.5, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.highHat, volume: 1.0, pitch: 1.2 },
+    { name: "Tom", color: Color.red, pos: new Vector3(0.3, 1.3, -1.9), rot: new Quaternion(0, -0.35, 0, 1), scale: new Vector3(0.2, 0.2, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.hit, volume: 0.8, pitch: 1.0 },
+    { name: "Crash", color: Color.blue, pos: new Vector3(0.45, 1.3, -1.6), rot: new Quaternion(0, -0.9, 0, 1), scale: new Vector3(0.2, 0.2, 0.2), audioFilePath: DefaultAudio.filePaths.instruments.drums.cymbal, volume: 0.8, pitch: 0.92 },
   ];
 
   pads.forEach((pad) => {
     const cube = spawnPrimitive.cube(
       pad.pos,
-      new Vector3(0.2, 0.2, 0.2),
+      pad.scale,
       pad.rot,
       pad.color,
       1,
