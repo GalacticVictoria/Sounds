@@ -40,7 +40,7 @@ function createDrumSet() {
       pad.rot,
       pad.color,
       1,
-      tru5e,
+      true,
       "Empty",
       undefined
     );
