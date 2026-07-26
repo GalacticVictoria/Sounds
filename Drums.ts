@@ -47,7 +47,7 @@ function createDrumSet() {
 
     cube.mesh.color.set(pad.color, 1);
 
-    cube.trigger.initialize(0.0, undefined, ["Left Hand", "Right Hand"], undefined);
+    cube.trigger.initialize(0.01, undefined, ["Left Hand", "Right Hand"], undefined);
     cube.trigger.setOccupiedFunction(() => {
       playPadSound(cube, pad);
     });
