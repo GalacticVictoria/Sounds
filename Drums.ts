@@ -7,6 +7,22 @@ import { spawnPrimitive } from "./Yuu API/SpawnPrimitive";
 
 registerStart(start);
 
+const drumPadPlayCallbacks: Array<(padName: string) => void> = [];
+const drumPads = new Map<string, ReturnType<typeof spawnPrimitive.cube>>();
+
+export function registerDrumPadPlayedCallback(callback: (padName: string) => void) {
+  drumPadPlayCallbacks.push(callback);
+}
+
+export function playDrumPadByName(padName: string) {
+  const pad = drumPads.get(padName);
+
+  if (pad) {
+    pad.audio.stop();
+    pad.audio.play();
+  }
+}
+
 function start() {
   createDrumSet();
 }
@@ -53,6 +69,8 @@ function createDrumSet() {
       playPadSound(cube, pad);
     });
 
+    drumPads.set(pad.name, cube);
+
     cube.audio.createFromFilePath(pad.audioFilePath, true);
 
     cube.audio.volume.set(pad.volume);
@@ -65,4 +83,8 @@ function createDrumSet() {
 function playPadSound(cube: ReturnType<typeof spawnPrimitive.cube>, pad: DrumPadDefinition) {
   cube.audio.stop();
   cube.audio.play();
+
+  drumPadPlayCallbacks.forEach((callback) => {
+    callback(pad.name);
+  });
 }
