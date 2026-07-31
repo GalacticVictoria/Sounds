@@ -25,8 +25,8 @@ let recordingStartTime = 0;
 let currentTrack: RecordedTrack | null = null;
 let recordedTracks: RecordedTrack[] = [];
 let nextTrackId = 1;
-let playbackLoopTimerId: number | undefined;
-let playbackTimerIds: number[] = [];
+let playbackLoopIntervalId: number | undefined;
+let playbackStepIndex = 0;
 let statusText: Entity | undefined;
 let trackCountText: Entity | undefined;
 let bpmText: Entity | undefined;
@@ -131,21 +131,22 @@ function startPlayback() {
   }
 
   isPlaying = true;
-  const loopDurationMs = getLoopDurationMs();
-  playRecordedTracks();
-  playbackLoopTimerId = Async.setInterval(() => {
-    playRecordedTracks();
-  }, loopDurationMs);
+  playbackStepIndex = 0;
+  playPlaybackStep();
+  playbackLoopIntervalId = Async.setInterval(() => {
+    playbackStepIndex = (playbackStepIndex + 1) % 16;
+    playPlaybackStep();
+  }, getStepDurationMs(16));
   updateStatusText();
 }
 
 function stopPlayback() {
   isPlaying = false;
-  clearPlaybackTimers();
-  if (playbackLoopTimerId !== undefined) {
-    Async.clearTimer(playbackLoopTimerId);
-    playbackLoopTimerId = undefined;
+  if (playbackLoopIntervalId !== undefined) {
+    Async.clearTimer(playbackLoopIntervalId);
+    playbackLoopIntervalId = undefined;
   }
+  playbackStepIndex = 0;
   updateStatusText();
 }
 
@@ -157,32 +158,14 @@ function resetTracks() {
   updateStatusText();
 }
 
-function playRecordedTracks() {
-  clearPlaybackTimers();
-
-  const loopDurationMs = getLoopDurationMs();
-
+function playPlaybackStep() {
   recordedTracks.forEach((track) => {
     track.events.forEach((event) => {
-      const delayMs = getStepDelayMs(event.step);
-      playbackTimerIds.push(Async.setTimeout(() => {
+      if (event.step % 16 === playbackStepIndex) {
         playPadByName(event.padName);
-      }, delayMs));
+      }
     });
   });
-
-  const loopTimer = Async.setTimeout(() => {
-    clearPlaybackTimers();
-  }, loopDurationMs);
-
-  playbackTimerIds.push(loopTimer);
-}
-
-function clearPlaybackTimers() {
-  playbackTimerIds.forEach((timerId) => {
-    Async.clearTimer(timerId);
-  });
-  playbackTimerIds = [];
 }
 
 function getLoopDurationMs(): number {
@@ -196,7 +179,7 @@ function getStepDurationMs(stepsPerBar: number): number {
 function quantizeStep(elapsedMs: number): number {
   const stepsPerBar = 16;
   const stepDurationMs = getStepDurationMs(stepsPerBar);
-  return Math.round(elapsedMs / stepDurationMs);
+  return Math.round(elapsedMs / stepDurationMs) % stepsPerBar;
 }
 
 function getStepDelayMs(step: number): number {
