@@ -11,7 +11,7 @@ registerStart(start);
 
 type RecordedEvent = {
   padName: string;
-  time: number;
+  step: number;
 };
 
 type RecordedTrack = {
@@ -29,12 +29,15 @@ let playbackLoopTimerId: number | undefined;
 let playbackTimerIds: number[] = [];
 let statusText: Entity | undefined;
 let trackCountText: Entity | undefined;
+let bpmText: Entity | undefined;
+let bpm = 120;
 
 function start() {
   registerDrumPadPlayedCallback((padName: string) => {
     if (isRecording && currentTrack) {
       const elapsed = Date.now() - recordingStartTime;
-      currentTrack.events.push({ padName, time: elapsed });
+      const step = quantizeStep(elapsed);
+      currentTrack.events.push({ padName, step });
     }
   });
 
@@ -63,8 +66,19 @@ function createLoopingControls() {
     resetTracks();
   });
 
+  const bpmMinusButton = createUIElement.button(new Vector3(-0.24, 1.82, -2.4), new Vector3(0.1, 0.08, 0.08), Quaternion.one, "-", Color.white, 6, Color.gray, undefined);
+  bpmMinusButton.rayClick.setClickFunction(() => {
+    setBpm(bpm - 5);
+  });
+
+  const bpmPlusButton = createUIElement.button(new Vector3(0.24, 1.82, -2.4), new Vector3(0.1, 0.08, 0.08), Quaternion.one, "+", Color.white, 6, Color.gray, undefined);
+  bpmPlusButton.rayClick.setClickFunction(() => {
+    setBpm(bpm + 5);
+  });
+
   statusText = createTextLabel(new Vector3(0, 2.25, -2.4), "Ready", 8, Color.white);
   trackCountText = createTextLabel(new Vector3(0, 2.38, -2.4), "Tracks: 0", 14, Color.white);
+  bpmText = createTextLabel(new Vector3(0, 1.94, -2.4), "BPM: 120", 12, Color.white);
 }
 
 function createTextLabel(pos: Vector3, text: string, fontSize: number, color: Color): Entity {
@@ -150,9 +164,10 @@ function playRecordedTracks() {
 
   recordedTracks.forEach((track) => {
     track.events.forEach((event) => {
+      const delayMs = getStepDelayMs(event.step);
       playbackTimerIds.push(Async.setTimeout(() => {
         playPadByName(event.padName);
-      }, event.time));
+      }, delayMs));
     });
   });
 
@@ -171,12 +186,35 @@ function clearPlaybackTimers() {
 }
 
 function getLoopDurationMs(): number {
-  const maxEventTime = recordedTracks.reduce((longest, track) => {
-    const trackDuration = track.events.reduce((maxTime, event) => Math.max(maxTime, event.time), 0);
-    return Math.max(longest, trackDuration);
-  }, 0);
+  return Math.max(400, getStepDurationMs(16));
+}
 
-  return Math.max(800, maxEventTime + 400);
+function getStepDurationMs(stepsPerBar: number): number {
+  return (60_000 / bpm) * (4 / stepsPerBar);
+}
+
+function quantizeStep(elapsedMs: number): number {
+  const stepsPerBar = 16;
+  const stepDurationMs = getStepDurationMs(stepsPerBar);
+  return Math.round(elapsedMs / stepDurationMs);
+}
+
+function getStepDelayMs(step: number): number {
+  const stepsPerBar = 16;
+  const stepDurationMs = getStepDurationMs(stepsPerBar);
+  return step * stepDurationMs;
+}
+
+function setBpm(nextBpm: number) {
+  bpm = Math.max(60, Math.min(220, nextBpm));
+  if (bpmText) {
+    bpmText.text.display.set(`BPM: ${bpm}`);
+  }
+
+  if (isPlaying) {
+    stopPlayback();
+    startPlayback();
+  }
 }
 
 function playPadByName(padName: string) {
@@ -184,12 +222,13 @@ function playPadByName(padName: string) {
 }
 
 function updateStatusText() {
-  if (!statusText || !trackCountText) {
+  if (!statusText || !trackCountText || !bpmText) {
     return;
   }
 
   const trackCountTextValue = `Tracks: ${recordedTracks.length}`;
   trackCountText.text.display.set(trackCountTextValue);
+  bpmText.text.display.set(`BPM: ${bpm}`);
 
   if (isRecording) {
     statusText.text.display.set("Recording...");
