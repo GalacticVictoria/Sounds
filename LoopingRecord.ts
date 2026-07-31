@@ -230,11 +230,14 @@ function setRecordButtonColor(isLit: boolean) {
     return;
   }
 
+  const brightRed = new Color(1, 0.2, 0.2);
+  const dimRed = new Color(0.7, 0.1, 0.1);
+
   if (isLit) {
-    recordButton.mesh.color.set(Color.red, 1);
+    recordButton.mesh.color.set(brightRed, 1);
   }
   else {
-    recordButton.mesh.color.set(Color.red, 1);
+    recordButton.mesh.color.set(dimRed, 1);
   }
 }
 
