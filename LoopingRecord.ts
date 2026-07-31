@@ -31,6 +31,9 @@ let statusText: Entity | undefined;
 let trackCountText: Entity | undefined;
 let bpmText: Entity | undefined;
 let bpm = 120;
+let recordButton: Entity | undefined;
+let recordButtonBlinkTimer: number | undefined;
+let isRecordButtonLit = false;
 
 function start() {
   registerDrumPadPlayedCallback((padName: string) => {
@@ -46,7 +49,7 @@ function start() {
 }
 
 function createLoopingControls() {
-  const recordButton = createUIElement.button(new Vector3(-0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Rec", Color.white, 6, Color.red, undefined);
+  recordButton = createUIElement.button(new Vector3(-0.42, 2.08, -2.4), new Vector3(0.24, 0.1, 0.1), Quaternion.one, "Rec", Color.white, 6, Color.red, undefined);
   recordButton.rayClick.setClickFunction(() => {
     toggleRecording();
   });
@@ -66,12 +69,12 @@ function createLoopingControls() {
     resetTracks();
   });
 
-  const bpmMinusButton = createUIElement.button(new Vector3(-0.24, 1.82, -2.4), new Vector3(0.1, 0.08, 0.08), Quaternion.one, "-", Color.white, 6, Color.gray, undefined);
+  const bpmMinusButton = createUIElement.button(new Vector3(-0.24, 1.82, -2.4), new Vector3(0.1, 0.08, 0.08), Quaternion.one, "-", Color.white, 6, Color.lavender, undefined);
   bpmMinusButton.rayClick.setClickFunction(() => {
     setBpm(bpm - 5);
   });
 
-  const bpmPlusButton = createUIElement.button(new Vector3(0.24, 1.82, -2.4), new Vector3(0.1, 0.08, 0.08), Quaternion.one, "+", Color.white, 6, Color.gray, undefined);
+  const bpmPlusButton = createUIElement.button(new Vector3(0.24, 1.82, -2.4), new Vector3(0.1, 0.08, 0.08), Quaternion.one, "+", Color.white, 6, Color.lavender, undefined);
   bpmPlusButton.rayClick.setClickFunction(() => {
     setBpm(bpm + 5);
   });
@@ -102,6 +105,7 @@ function startRecording() {
   isRecording = true;
   recordingStartTime = Date.now();
   currentTrack = { id: nextTrackId++, events: [] };
+  startRecordButtonBlink();
   updateStatusText();
 }
 
@@ -112,6 +116,7 @@ function stopRecording() {
 
   currentTrack = null;
   isRecording = false;
+  stopRecordButtonBlink();
   updateStatusText();
 }
 
@@ -155,6 +160,7 @@ function resetTracks() {
   recordedTracks = [];
   currentTrack = null;
   isRecording = false;
+  stopRecordButtonBlink();
   updateStatusText();
 }
 
@@ -197,6 +203,38 @@ function setBpm(nextBpm: number) {
   if (isPlaying) {
     stopPlayback();
     startPlayback();
+  }
+}
+
+function startRecordButtonBlink() {
+  stopRecordButtonBlink();
+  setRecordButtonColor(true);
+  recordButtonBlinkTimer = Async.setInterval(() => {
+    isRecordButtonLit = !isRecordButtonLit;
+    setRecordButtonColor(isRecordButtonLit);
+  }, 300);
+}
+
+function stopRecordButtonBlink() {
+  if (recordButtonBlinkTimer !== undefined) {
+    Async.clearTimer(recordButtonBlinkTimer);
+    recordButtonBlinkTimer = undefined;
+  }
+
+  isRecordButtonLit = false;
+  setRecordButtonColor(false);
+}
+
+function setRecordButtonColor(isLit: boolean) {
+  if (!recordButton) {
+    return;
+  }
+
+  if (isLit) {
+    recordButton.mesh.color.set(Color.red, 1);
+  }
+  else {
+    recordButton.mesh.color.set(Color.red, 1);
   }
 }
 
