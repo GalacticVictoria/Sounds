@@ -8,7 +8,7 @@ import { DefaultAudio } from "./Yuu API/Audio/DefaultAudio";
 
 registerStart(Start);
 function Start() {
-
+createPiano();
 }
 
 
@@ -44,7 +44,10 @@ function createPiano() {
             "Empty",
             undefined,
         );
-    }
 
-    
+        cube.mesh.color.set(key.color, 1);
+
+    });
+
+
 }
