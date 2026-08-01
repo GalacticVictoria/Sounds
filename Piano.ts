@@ -45,9 +45,15 @@ function createPiano() {
             undefined,
         );
 
-       
+       cube.trigger.initialize(0.15, undefined, ["Left Hand", "Right Hand"], undefined);
+       cube.trigger.setOccupiedFunction(() => {
+            playKeySound(cube, key);
+       })
 
     });
+}
 
-
+function playKeySound(cube: ReturnType<typeof spawnPrimitive.cube>, key: PianoKeyDefinition) {
+    cube.audio.stop();
+    cube.audio.play();
 }
