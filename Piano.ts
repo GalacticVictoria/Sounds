@@ -26,11 +26,11 @@ type PianoKeyDefinition = {
 function createPiano() {
     const keys: PianoKeyDefinition[] = [
         { name: "C Chord Long", color: new Color(1, 0, 0), pos: new Vector3(-3, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cChordLong, volume: 1, pitch: 1 },
-        { name: "C Chord Short", color: new Color(1, 0, 0), pos: new Vector3(-2.8, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cChordShort, volume: 1, pitch: 1 },
-        { name: "C Long", color: new Color(1, 0, 0), pos: new Vector3(-2.6, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cLong, volume: 1, pitch: 1 },
-        { name: "C Short", color: new Color(1, 0, 0), pos: new Vector3(-1.5, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cShort, volume: 1, pitch: 1 },
-        { name: "C Long Minor", color: new Color(1, 0, 0), pos: new Vector3(-1.0, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cLongMinor, volume: 1, pitch: 1 },
-        { name: "C Short Minor", color: new Color(1, 0, 0), pos: new Vector3(-0.5, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cShortMinor, volume: 1, pitch: 1 },
+        { name: "C Chord Short", color: new Color(1, 0.54, 0), pos: new Vector3(-2.8, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cChordShort, volume: 1, pitch: 1 },
+        { name: "C Long", color: new Color(1, 1, 0), pos: new Vector3(-2.6, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cLong, volume: 1, pitch: 1 },
+        { name: "C Short", color: new Color(1, 0, 0), pos: new Vector3(-2.4, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cShort, volume: 1, pitch: 1 },
+        { name: "C Long Minor", color: new Color(1, 0, 0), pos: new Vector3(-2.2, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cLongMinor, volume: 1, pitch: 1 },
+        { name: "C Short Minor", color: new Color(1, 0, 0), pos: new Vector3(-2.0, 1.4, -2), rot: new Quaternion(0, 0, 0, 1), scale: new Vector3(0.2, 0.2, 0.4), audioFilePath: DefaultAudio.filePaths.instruments.piano.cShortMinor, volume: 1, pitch: 1 },
     ];
 
     keys.forEach((key) => {
